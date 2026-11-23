@@ -1,0 +1,8 @@
+services:
+  compte-service:
+    build: .
+    container_name: tp1-compte-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: demo

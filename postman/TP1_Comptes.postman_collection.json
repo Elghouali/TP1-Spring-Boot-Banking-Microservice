@@ -1,0 +1,199 @@
+{
+  "info": {
+    "name": "ENSET — TP1 Spring Boot Comptes Bancaires",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "11 etapes REST Swagger, Spring Data REST, GraphQL"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "compteId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Creer compte (REST)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+              "const obj = pm.response.json();",
+              "pm.collectionVariables.set('compteId', obj.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"solde\": 1000.0, \"typeCompte\": \"COURANT\", \"devise\": \"MAD\"}"
+        },
+        "url": "{{baseUrl}}/api/comptes"
+      }
+    },
+    {
+      "name": "02 - Lister comptes REST",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/comptes"
+      }
+    },
+    {
+      "name": "03 - Consulter compte REST",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/comptes/{{compteId}}"
+      }
+    },
+    {
+      "name": "04 - Modifier compte REST",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"solde\": 1200, \"typeCompte\": \"EPARGNE\", \"devise\": \"MAD\"}"
+        },
+        "url": "{{baseUrl}}/api/comptes/{{compteId}}"
+      }
+    },
+    {
+      "name": "05 - Depot REST",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"montant\": 500}"
+        },
+        "url": "{{baseUrl}}/api/comptes/{{compteId}}/depot"
+      }
+    },
+    {
+      "name": "06 - Retrait REST",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"montant\": 200}"
+        },
+        "url": "{{baseUrl}}/api/comptes/{{compteId}}/retrait"
+      }
+    },
+    {
+      "name": "07 - Refus decouvert",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"montant\": 900000}"
+        },
+        "url": "{{baseUrl}}/api/comptes/{{compteId}}/retrait"
+      }
+    },
+    {
+      "name": "08 - Swagger JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/v3/api-docs"
+      }
+    },
+    {
+      "name": "09 - Data REST collections et projection resume",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/data-rest/comptes?projection=resume"
+      }
+    },
+    {
+      "name": "10 - Data REST projection detail",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/data-rest/comptes/{{compteId}}?projection=detail"
+      }
+    },
+    {
+      "name": "11 - Data REST recherche par type",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/data-rest/comptes/search/byType?type=COURANT"
+      }
+    },
+    {
+      "name": "12 - GraphQL query",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"query { allComptes { id solde typeCompte devise } }\"}"
+        },
+        "url": "{{baseUrl}}/graphql"
+      }
+    },
+    {
+      "name": "13 - GraphQL mutation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"mutation { createCompte(input:{solde:700.0,typeCompte:EPARGNE,devise:\\\"MAD\\\"}) { id solde typeCompte } }\"}"
+        },
+        "url": "{{baseUrl}}/graphql"
+      }
+    },
+    {
+      "name": "14 - Supprimer compte REST (a lancer en dernier)",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/comptes/{{compteId}}"
+      }
+    }
+  ]
+}
