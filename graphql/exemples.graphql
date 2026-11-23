@@ -1,0 +1,33 @@
+# Dans GraphiQL : http://localhost:8081/graphiql
+
+query TousLesComptes {
+  allComptes { id dateCreation solde typeCompte devise }
+}
+
+query CompteParId {
+  compteById(id: "1") { id solde typeCompte }
+}
+
+mutation CreerCompte {
+  createCompte(input: {solde: 1500, typeCompte: COURANT, devise: "MAD"}) {
+    id solde typeCompte devise
+  }
+}
+
+mutation FaireUnDepot {
+  deposer(id: "1", montant: 500) { id solde }
+}
+
+mutation FaireUnRetrait {
+  retirer(id: "1", montant: 200) { id solde }
+}
+
+mutation ModifierCompte {
+  updateCompte(id: "1", input: {solde: 4500, typeCompte: EPARGNE, devise: "MAD"}) {
+    id typeCompte solde
+  }
+}
+
+mutation SupprimerCompte {
+  deleteCompte(id: "1")
+}

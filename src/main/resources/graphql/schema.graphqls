@@ -1,0 +1,31 @@
+enum TypeCompte {
+  COURANT
+  EPARGNE
+}
+
+type Compte {
+  id: ID!
+  dateCreation: String!
+  solde: Float!
+  typeCompte: TypeCompte!
+  devise: String!
+}
+
+input CompteInput {
+  solde: Float!
+  typeCompte: TypeCompte!
+  devise: String
+}
+
+type Query {
+  allComptes: [Compte!]!
+  compteById(id: ID!): Compte
+}
+
+type Mutation {
+  createCompte(input: CompteInput!): Compte!
+  updateCompte(id: ID!, input: CompteInput!): Compte!
+  deposer(id: ID!, montant: Float!): Compte!
+  retirer(id: ID!, montant: Float!): Compte!
+  deleteCompte(id: ID!): Boolean!
+}
